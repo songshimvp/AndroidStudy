@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <!-- 多个控件跑马灯 -->
+    <com.example.testlongtext.Marquee
+        android:id="@+id/te1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+        
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        
+        android:text="@string/hello_world" />
+
+    
+    <com.example.testlongtext.Marquee
+        android:id="@+id/te2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+        
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        
+        android:text="@string/hello_world" />
+
+    <AutoCompleteTextView
+        android:id="@+id/autoCompleteTextView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="请输入关键字" 
+        android:completionThreshold="2">
+
+        
+    </AutoCompleteTextView>
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/multiAutoCompleteTextView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="MultiAutoCompleteTextView" />
+
+</LinearLayout>
