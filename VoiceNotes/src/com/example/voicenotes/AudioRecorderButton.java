@@ -12,13 +12,13 @@ import android.widget.Button;
 
 public class AudioRecorderButton extends Button implements AudioStateListenter {
 
-	private static final int STATE_NORMAL = 1;           //Ä¬ÈÏ×´Ì¬
-	private static final int STATE_RECORDERING = 2;      //Â¼Òô×´Ì¬
-	private static final int STATE_WANT_TO_CALCEL = 3;   //È¡Ïû×´Ì¬
+	private static final int STATE_NORMAL = 1;           //é»˜è®¤çŠ¶æ€
+	private static final int STATE_RECORDERING = 2;      //å½•éŸ³çŠ¶æ€
+	private static final int STATE_WANT_TO_CALCEL = 3;   //å–æ¶ˆçŠ¶æ€
 
-	private int mCurState = STATE_NORMAL;  //µ±Ç°×´Ì¬
-	private boolean isRecordering = false; // ÊÇ·ñÒÑ¾­¿ªÊ¼Â¼Òô
-	private boolean mReady; // ÊÇ·ñ´¥·¢onLongClick
+	private int mCurState = STATE_NORMAL;  //å½“å‰çŠ¶æ€
+	private boolean isRecordering = false; // æ˜¯å¦å·²ç»å¼€å§‹å½•éŸ³
+	private boolean mReady; // æ˜¯å¦è§¦å‘onLongClick
 
 	private static final int DISTANCE_Y_CANCEL = 50;
 
@@ -26,7 +26,7 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 
 	private AudioManage mAudioManage;
 
-	//¹¹Ôì·½·¨
+	//æ„é€ æ–¹æ³•
 	public AudioRecorderButton(Context context) {
 		super(context, null);
 		// TODO Auto-generated constructor stub
@@ -37,7 +37,7 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 		audioDialogManage = new AudioDialogManage(getContext());
 
 		String dir = Environment.getExternalStorageDirectory()
-				+ "/VoiceRecorder";// ´Ë´¦ĞèÒªÅĞ¶ÏÊÇ·ñÓĞ´æ´¢¿¨
+				+ "/VoiceRecorder";// æ­¤å¤„éœ€è¦åˆ¤æ–­æ˜¯å¦æœ‰å­˜å‚¨å¡
 		mAudioManage = AudioManage.getInstance(dir);
 		mAudioManage.setOnAudioStateListenter(this);
 
@@ -47,16 +47,16 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 			public boolean onLongClick(View v) {
 				// TODO Auto-generated method stub
 				mReady = true;
-				// ÕæÕıÏÔÊ¾Ó¦¸ÃÔÚaudio end preparedÒÔºó
+				// çœŸæ­£æ˜¾ç¤ºåº”è¯¥åœ¨audio end preparedä»¥å
 				mAudioManage.prepareAudio();
-				//return true;
-				return false;
+				return true;
+				//return false;
 			}
 		});
 		// TODO Auto-generated constructor stub
 	}
 
-	//Â¼ÒôÍê³ÉºóµÄ»Øµ÷
+	//å½•éŸ³å®Œæˆåçš„å›è°ƒ
 	public interface AudioFinishRecorderListenter{
 		void onFinish(float seconds,String FilePath);
 	}
@@ -67,11 +67,11 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 		this.mListenter=listenter;
 	}
 	
-	//¸´Ğ´onTouchEvent
+	//å¤å†™onTouchEvent
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 
-		int action = event.getAction();   //»ñÈ¡µ±Ç°Action
+		int action = event.getAction();   //è·å–å½“å‰Action
 		int x = (int) event.getX();
 		int y = (int) event.getY();
 
@@ -83,7 +83,7 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 
 		case MotionEvent.ACTION_MOVE:
 
-			// ¸ù¾İX¡¢YµÄ×ø±ê£¬ÅĞ¶ÏÊÇ·ñÏëÒªÈ¡Ïû
+			// æ ¹æ®Xã€Yçš„åæ ‡ï¼Œåˆ¤æ–­æ˜¯å¦æƒ³è¦å–æ¶ˆ
 			if (isRecordering) {
 				if (wantToCancel(x, y)) {
 					changeState(STATE_WANT_TO_CALCEL);
@@ -94,7 +94,7 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 			break;
 
 		case MotionEvent.ACTION_UP:
-			if (!mReady) {   //Ã»ÓĞ´¥·¢onLongClick
+			if (!mReady) {   //æ²¡æœ‰è§¦å‘onLongClick
 				reset();
 				return super.onTouchEvent(event);
 			}
@@ -102,16 +102,16 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 			if (!isRecordering || mTime < 0.5f) {
 				audioDialogManage.tooShort();
 				mAudioManage.cancel();
-				mHandler.sendEmptyMessageDelayed(MSG_DIALOG_DIMISS, 1300);// ÑÓ³Ù£¬1.3ÃëÒÔºó¹Ø±ÕÊ±¼ä¹ı¶Ì¶Ô»°¿ò
+				mHandler.sendEmptyMessageDelayed(MSG_DIALOG_DIMISS, 1300);// å»¶è¿Ÿï¼Œ1.3ç§’ä»¥åå…³é—­æ—¶é—´è¿‡çŸ­å¯¹è¯æ¡†
 			} 
 			/*else if (mTime < 0.5f) {
 				audioDialogManage.tooShort();
 				isRecordering=false;
 				mAudioManage.cancel();
-				mHandler.sendEmptyMessageDelayed(MSG_DIALOG_DIMISS, 1300);// ÑÓ³Ù
+				mHandler.sendEmptyMessageDelayed(MSG_DIALOG_DIMISS, 1300);// å»¶è¿Ÿ
 			}*/
 
-			else if (mCurState == STATE_RECORDERING) { //Õı³£Â¼ÖÆ½áÊø
+			else if (mCurState == STATE_RECORDERING) { //æ­£å¸¸å½•åˆ¶ç»“æŸ
 				
 				audioDialogManage.dimissDialog();
 				// callbackToAct
@@ -134,7 +134,7 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 		return super.onTouchEvent(event);
 	}
 
-	// »Ö¸´×´Ì¬ÒÔ¼°Ò»Ğ©±êÖ¾Î»
+	// æ¢å¤çŠ¶æ€ä»¥åŠä¸€äº›æ ‡å¿—ä½
 	private void reset() {
 		isRecordering = false;
 		mReady = false;
@@ -143,7 +143,7 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 	}
 
 	private boolean wantToCancel(int x, int y) {
-		// ÅĞ¶ÏÊÖÖ¸µÄ»¬¶¯ÊÇ·ñ³¬³ö·¶Î§
+		// åˆ¤æ–­æ‰‹æŒ‡çš„æ»‘åŠ¨æ˜¯å¦è¶…å‡ºèŒƒå›´
 		if (x < 0 || x > getWidth()) {
 			return true;
 		}
@@ -153,7 +153,7 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 		return false;
 	}
 
-	//¸Ä±äButtonµÄ±³¾°ºÍÎÄ±¾
+	//æ”¹å˜Buttonçš„èƒŒæ™¯å’Œæ–‡æœ¬
 	private void changeState(int state) {
 		if (mCurState != state) {
 			mCurState = state;
@@ -167,7 +167,7 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 				setBackgroundResource(R.drawable.btn_recorder_recordering);
 				setText(R.string.str_recorder_recording);
 				if (isRecordering) {
-					// ¸üĞÂDialog.recording()
+					// æ›´æ–°Dialog.recording()
 					audioDialogManage.recording();
 				}
 				break;
@@ -175,7 +175,7 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 			case STATE_WANT_TO_CALCEL:
 				setBackgroundResource(R.drawable.btn_recorder_recordering);
 				setText(R.string.str_recorder_want_cancel);
-				// ¸üĞÂDialog.wantCancel()
+				// æ›´æ–°Dialog.wantCancel()
 				audioDialogManage.wantToCancel();
 				break;
 			}
@@ -188,7 +188,7 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 
 	private float mTime;
 
-	// »ñÈ¡ÒôÁ¿´óĞ¡µÄRunnable
+	// è·å–éŸ³é‡å¤§å°çš„Runnable
 	private Runnable mGetVoiceLevelRunnable = new Runnable() {
 
 		@Override
