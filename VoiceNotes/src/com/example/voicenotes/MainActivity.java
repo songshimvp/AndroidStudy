@@ -54,7 +54,7 @@ public class MainActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				if (mAnimView != null) {
-					mAnimView.setBackgroundResource(R.drawable.adj);
+					mAnimView.setBackgroundResource(R.drawable.play_after);
 					mAnimView = null;
 				}
 				// ²¥·Å¶¯»­
@@ -69,7 +69,7 @@ public class MainActivity extends Activity {
 
 							@Override
 							public void onCompletion(MediaPlayer mp) {
-								mAnimView.setBackgroundResource(R.drawable.adj);
+								mAnimView.setBackgroundResource(R.drawable.play_after);
 
 							}
 						});

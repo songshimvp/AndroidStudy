@@ -15,13 +15,21 @@ import com.example.voicenotes.MainActivity.Recorder;
 
 public class AudioRecorderAdapter extends ArrayAdapter<Recorder> {
 
+	private List<Recorder> mDatas;
+	private Context mContext;
+	
 	private int mMinItemWidth;
 	private int mMaxItemWidth;
 
 	private LayoutInflater mInflater;
 
+	//构造函数
 	public AudioRecorderAdapter(Context context, List<Recorder> datas) {
 		super(context, -1, datas);
+		mContext=context;
+		mDatas=datas;
+		
+		mInflater=LayoutInflater.from(context);
 		
 		WindowManager windowManager = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
@@ -47,7 +55,7 @@ public class AudioRecorderAdapter extends ArrayAdapter<Recorder> {
 			holder=(ViewHolder) convertView.getTag();
 		}
 		
-		holder.seconds.setText(Math.round(getItem(position).getTime())+"\"");
+		holder.seconds.setText(Math.round(getItem(position).getTime())+"\"");   //录音的时间的显示
 		ViewGroup.LayoutParams lp=holder.mLength.getLayoutParams();
 		lp.width=(int) (mMinItemWidth+(mMaxItemWidth/60f * getItem(position).getTime()));
 		return convertView;
@@ -56,6 +64,5 @@ public class AudioRecorderAdapter extends ArrayAdapter<Recorder> {
 	private class ViewHolder {
 		TextView seconds;
 		View mLength;
-
 	}
 }

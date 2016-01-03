@@ -99,7 +99,7 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 				return super.onTouchEvent(event);
 			}
 
-			if (!isRecordering || mTime < 0.5f) {
+			if (!isRecordering || mTime < 0.7f) {
 				audioDialogManage.tooShort();
 				mAudioManage.cancel();
 				mHandler.sendEmptyMessageDelayed(MSG_DIALOG_DIMISS, 1300);// 延迟，1.3秒以后关闭时间过短对话框
@@ -114,13 +114,12 @@ public class AudioRecorderButton extends Button implements AudioStateListenter {
 			else if (mCurState == STATE_RECORDERING) { //正常录制结束
 				
 				audioDialogManage.dimissDialog();
+				// release
+				mAudioManage.release();
 				// callbackToAct
 				if(mListenter!=null){
 					mListenter.onFinish(mTime, mAudioManage.getCurrentFilePath());
-				}
-				// release
-				mAudioManage.release();
-				
+				}				
 				
 			} else if (mCurState == STATE_WANT_TO_CALCEL) {
 				// cancel
